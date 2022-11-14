@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { IonButton, IonContent, IonText, IonButtons, IonHeader, IonPage, IonImg, IonTitle, IonToolbar, onIonViewWillEnter } from '@ionic/vue';
+import { IonButton, IonContent, IonText, IonButtons, IonHeader, IonModal, IonTextarea, IonPage, IonImg, IonTitle, IonToolbar, onIonViewWillEnter } from '@ionic/vue';
 import { directus } from '@/services/directus.service';
-import { IGameResponse, IGame } from '@/models/IGame';
+import { IGameDetailsResponse, IGameDetails } from '@/models/IGame';
 import GoogleMaps from '@/components/GoogleMaps.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useRoute } from 'vue-router';
@@ -27,9 +27,13 @@ const route = useRoute();
 
 const { id } = route.params;
 
-const game = ref<IGame[]>([]);
+const game = ref<IGameDetails[]>([]);
 
 const user = ref<IUser>();
+
+const seller = ref<IUser>();
+
+var chatId = ref<any>();
 
 onIonViewWillEnter(async () => {
   checkIfLoggedIn();
@@ -77,7 +81,7 @@ const checkIfFavorited = async () => {
 
 // Get game by id from Directus
 const fetchGames = async () => {
-  const response = await directus.graphql.items<IGameResponse>(`
+  const response = await directus.graphql.items<IGameDetailsResponse>(`
     query {
       games_by_id(id: ${id}) {
         id,
@@ -95,6 +99,13 @@ const fetchGames = async () => {
         address,
         place,
         zip,
+        user_created {
+          id,
+          first_name,
+          avatar {
+            id,
+          },
+        },
       }
     }
   `);
@@ -102,6 +113,10 @@ const fetchGames = async () => {
   if (response.status === 200 && response.data) {
     game.value = response.data.games_by_id; 
     console.log(game.value);
+    
+    seller.value = game.value.user_created;
+    console.log(seller.value);
+    chatId.value = `/chat/${seller.value.id}`;
   }
 }
 
@@ -170,7 +185,7 @@ const modules = [Pagination];
         <div class="game-subtitle">
           <p class="game-price pixel">{{ game.price }} kr<br/></p>
           <div v-if="user">
-            <ion-img class="favorite-img chat" :src="Chat"></ion-img>
+            <ion-img class="favorite-img chat" :src="Chat" :router-link="chatId"></ion-img>
             <ion-img class="favorite-img" :src="favoriteStatus ? StarYellow : Star" @click="toggleFavorite()"></ion-img>
           </div>
         </div>
@@ -188,7 +203,15 @@ const modules = [Pagination];
           </div> 
         </div>  
       </div>
+      <ion-modal ref="modal" trigger="open-message" :initial-breakpoint="0.25" :breakpoints="[0, 0.25, 0.5, 0.75]">
+      <ion-content class="ion-padding">
+        <ion-text class="pixel">Send besked til sælger</ion-text>
+        <ion-textarea class="message-textarea" placeholder="Skriv din besked her"></ion-textarea>
+        <ion-button class="send-message-button">Send besked</ion-button>
+      </ion-content>
+    </ion-modal>
     </ion-content>
+    
   </ion-page>
 </template>
 

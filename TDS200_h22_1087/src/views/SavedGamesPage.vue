@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { IonButtons, IonText, IonImg, IonButton, onIonViewWillEnter, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, RefresherCustomEvent, onIonViewDidLeave } from '@ionic/vue';
+import { IonButtons, IonText, IonImg, IonButton, onIonViewWillEnter, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSpinner } from '@ionic/vue';
 import { directus, authService } from '@/services/directus.service';
 import { IGameResponse, IGame } from '@/models/IGame';
-import { IUser } from '@/models/IUser';
 import GameCard from '@/components/GameCard.vue';
-import { ref } from 'vue';
+import { IUser } from '@/models/IUser';
 import Back from '@/icons/back.png';
+import { ref } from 'vue';
 
-// Store game objects
+const gamesHasLoaded = ref(false);
+
 const games = ref<IGame[]>([]);
 
 const favorites = ref<any[]>([]);
@@ -15,16 +16,11 @@ const favorites = ref<any[]>([]);
 const user = ref<IUser>();
 
 onIonViewWillEnter(async () => {
-    user.value = await authService.currentUser();
-    fetchFavorites();
+  user.value = await authService.currentUser();
+  fetchFavorites();
 });
 
-onIonViewDidLeave(() => {
-    user.value = undefined;
-    favorites.value = [];
-    games.value = [];
-});
-
+// Get favorites by user id from Directus
 const fetchFavorites = async () => {
   const response = await directus.graphql.items<any>(`
     query {
@@ -37,42 +33,40 @@ const fetchFavorites = async () => {
 
   if (response.status === 200 && response.data) {
     favorites.value = [...response.data.favorite_games]; 
-    console.log(favorites.value);
   }
   fetchGames();
 }
 
-// Get game by id from Directus
+// Get games by id from Directus
 const fetchGames = async () => {
-    favorites.value.forEach( async (favorite) => {
-        const response = await directus.graphql.items<IGameResponse>(`
-    query {
-      games_by_id(id: ${favorite.games_id}) {
-        id,
-        images {
+  favorites.value.forEach( async (favorite) => {
+    const response = await directus.graphql.items<IGameResponse>(`
+      query {
+        games_by_id(id: ${favorite.games_id}) {
           id,
-          directus_files_id {
+          images {
             id,
+            directus_files_id {
+              id,
+            },
           },
-        },
-        title,
-        description,
-        platform,
-        price,
-        condition,
-        address,
-        place,
-        zip,
+          title,
+          description,
+          platform,
+          price,
+          condition,
+          address,
+          place,
+          zip,
+        }
       }
-    }
-  `);
-
-  if (response.status === 200 && response.data) {
-    games.value.push(response.data.games_by_id);
-  }
-        
-    });
-    console.log(games.value);
+    `);
+    if (response.status === 200 && response.data) {
+      games.value.push(response.data.games_by_id);
+    }      
+  });
+  // Set gamesHasLoaded to true to show content
+  gamesHasLoaded.value = true;
 }
 
 </script>
@@ -81,19 +75,24 @@ const fetchGames = async () => {
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button class="back-button">
-                <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
-            </ion-button>
-          </ion-buttons>
+          <ion-button class="back-button">
+            <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
+          </ion-button>
+        </ion-buttons>
         <ion-title class="pixel header-title">Lagrede annonser</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content v-if="games.length > 0" :fullscreen="true">
-        <!-- Games are listed here-->
-        <GameCard v-for="game in games" :key="game.id" :game="game"/>
+    <!-- Loading screen -->
+    <ion-content :fullscreen="true" class="loading" v-if="gamesHasLoaded.valueOf() == false">
+      <ion-spinner></ion-spinner>
     </ion-content>
-    <ion-content v-else :fullscreen="true" class="no-games">
-        <ion-text>Ingen annonser er lagret</ion-text>
+    <!-- If there are saved games -->
+    <ion-content v-if="gamesHasLoaded.valueOf() == true && games.length > 0" :fullscreen="true">
+      <GameCard v-for="game in games" :key="game.id" :game="game"/>
+    </ion-content>
+    <!-- If there are no saved games -->
+    <ion-content v-if="gamesHasLoaded.valueOf() == true && games.length == 0" :fullscreen="true" class="no-games">
+      <ion-text>Ingen annonser er lagret</ion-text>
     </ion-content>
   </ion-page>
 </template>
@@ -101,17 +100,23 @@ const fetchGames = async () => {
 <style scoped>
 
 .no-games {
-    text-align: center;
-    position: fixed !important;
-    top: 25%;
-  }
+  text-align: center;
+  position: fixed !important;
+  top: 25%;
+}
 
 .back-button {
-    width: 35px;
-    height: 35px;
-    object-fit: cover;
-    margin: 0;
-  }
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  margin: 0;
+}
 
+ion-spinner {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 </style>

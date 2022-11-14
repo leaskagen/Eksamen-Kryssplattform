@@ -21,6 +21,37 @@ export interface IGameResponse {
     game: IGame[];
 }
 
+export interface IGameDetails {
+    id: number;
+    images: [{
+        id: number;
+        games_id: number;
+        directus_files_id: {
+            id: string;
+        }
+    }];
+    title: string;
+    description: string;
+    platform: string;
+    price: number;
+    condition: string;
+    address: string;
+    place: string;
+    zip: string;
+    user_created: {
+        id: number;
+        first_name: string;
+        email: string;
+        avatar: {
+            id: string;
+        }
+    }
+}
+
+export interface IGameDetailsResponse {
+    game: IGameDetails[];
+}
+
 export interface IGameImage {
     id: number;
     games_id: number;

@@ -62,7 +62,6 @@ import { IonContent, IonImg, IonMenuToggle, IonText, IonList, IonItem, IonHeader
 import { authService } from '@/services/directus.service';
 import User from '@/icons/profile-avatar.png';
 import Folder from '@/icons/folder.png';
-import Heart from '@/icons/heart.png';
 import Star from '@/icons/star.png';
 import Note from '@/icons/note.png';
 import Chat from '@/icons/chat.png';
@@ -75,11 +74,9 @@ const checkIfLoggedIn = async () => {
   var auth_token = localStorage.getItem('auth_token');
   if (auth_token) {
     isLoggedIn.value = true;
-    console.log(`isLoggedIn: ${isLoggedIn.value}`);
   }
   else {
     isLoggedIn.value = false;
-    console.log(`isLoggedIn: ${isLoggedIn.value}`);
   }
 }
 
@@ -102,9 +99,7 @@ ion-content, .inner-scroll {
   --background: url('@/images/menu-background.svg') no-repeat center/cover fixed !important;
 }
 
-
 ion-item, ion-list {
-
 --ion-background-color: rgb(255, 255, 255, 0.49)!important;
 }
 
@@ -116,7 +111,6 @@ ion-list {
 box-shadow: 1px -1px 21px 22px rgba(255, 255, 255,0.75);
 -webkit-box-shadow: 1px -1px 21px 22px rgba(255, 255, 255,0.75);
 -moz-box-shadow: 1px -1px 21px 22px rgba(255, 255, 255,0.75);
-
 }
 
 .menu-icons {

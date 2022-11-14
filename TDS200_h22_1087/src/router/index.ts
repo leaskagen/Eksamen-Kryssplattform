@@ -7,8 +7,8 @@ import NewGame from '../views/NewGame.vue';
 import ProfilePage from '../views/ProfilePage.vue';
 import MyGamesPage from '../views/MyGamesPage.vue';
 import SavedGamesPage from '../views/SavedGamesPage.vue';
-import EditGamePage from '../views/EditGamePage.vue';
 import MessagesPage from '../views/MessagesPage.vue';
+import ChatPage from '../views/ChatPage.vue';
 
 const authenticationRequiredRouteGuard = async () => {
   const userAccessToken = localStorage.getItem("auth_token");
@@ -62,15 +62,15 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: authenticationRequiredRouteGuard
   },
   {
-    path: '/edit/:id',
-    name: 'EditGame',
-    component: EditGamePage,
-    beforeEnter: authenticationRequiredRouteGuard
-  },
-  {
     path: '/messages',
     name: 'Messages',
     component: MessagesPage,
+    beforeEnter: authenticationRequiredRouteGuard
+  },
+  {
+    path: '/chat/:id',
+    name: 'Chat',
+    component: ChatPage,
     beforeEnter: authenticationRequiredRouteGuard
   }
 ]

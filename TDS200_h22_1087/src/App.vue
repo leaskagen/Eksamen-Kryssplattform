@@ -68,4 +68,9 @@ ion-title {
 .swiper-pagination-bullet-active {
   --swiper-pagination-color: #85FF83 !important;
 }
+
+.messages-item .input-wrapper {
+  --padding-bottom: 1em !important;
+  padding-bottom: 1em !important;
+}
 </style>

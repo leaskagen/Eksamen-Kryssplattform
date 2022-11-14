@@ -35,72 +35,69 @@ var gameCard: any;
 const filePath = 'https://bi5voh2i.directus.app/assets/';
 
 const presentAlert = async (game: string) => {
-    gameCard = document.getElementById(cardId+game);
+  gameCard = document.getElementById(cardId+game);
 
-    console.log(gameCard);
-
-    // Ask user if they want to delete game
-    const alert = await alertController.create({
-        header: 'Er du sikker på at du vil slette denne annonsen?',
-        buttons: [
-            {
-                // If user clicks cancel, do nothing
-                text: 'Avbryt',
-                handler: () => {
-                    return;
-                },
-            },
-            {
-                // If user clicks delete, delete game
-                text: 'Slett',
-                handler: () => {
-                    deleteGame(game);
-                },
-            },
-        ],
-    });
-
-    // Show alert
-    await alert.present();
+  // Ask user if they want to delete game
+  const alert = await alertController.create({
+    header: 'Er du sikker på at du vil slette denne annonsen?',
+    buttons: [
+      {
+        // If user clicks cancel, do nothing
+        text: 'Avbryt',
+        handler: () => {
+          return;
+        },
+      },
+      {
+        // If user clicks delete, delete game
+        text: 'Slett',
+        handler: () => {
+          deleteGame(game);
+        },
+      },
+    ],
+  });
+  // Show alert
+  await alert.present();
 };
 
 // Delete game from Directus
 const deleteGame = async (game: string) => {
-    await directus.graphql.items<any>(`
-        mutation {
-            delete_games_item(id: ${game}) {
-                id
-            }
-        }
-    `);
+  await directus.graphql.items<any>(`
+    mutation {
+      delete_games_item(id: ${game}) {
+        id
+      }
+    }
+  `);
 
-    const toast = await toastController.create({
-        message: 'Annonsen er slettet',
-        duration: 2000,
-        color: 'danger'
-    });
+  const toast = await toastController.create({
+    message: 'Annonsen er slettet',
+    duration: 2000,
+    color: 'danger'
+  });
 
-    toast.present();
+  toast.present();
 
-    // Hide game card
-    gameCard.style.display = "none";
+  // Hide game card
+  gameCard.style.display = "none";
 }
 
 </script>
 
 <template>
-    <ion-card :id="cardId+game.id" ref="gameCard">
-        <ion-img :src="filePath + game.images[0].directus_files_id.id" :router-link="'/details/' + game.id"/>
-        <ion-card-header :router-link="'/details/' + game.id">
-            <ion-card-title class="pixel card-title"  size="small">{{ game.title }}</ion-card-title>
-        </ion-card-header>
-        <div class="card-content">
-            <ion-buttons>
-                <ion-button fill="clear" class="pixel"><ion-img :src="Edit" class="icons"/>Rediger</ion-button>
-                <ion-button fill="clear" class="pixel" @click="presentAlert(game.id)"><ion-img :src="Trash" class="icons"/>Slett</ion-button>
-            </ion-buttons>
-        </div>
-    </ion-card>
+  <ion-card :id="cardId+game.id" ref="gameCard">
+    <ion-img :src="filePath + game.images[0].directus_files_id.id" :router-link="'/details/' + game.id"/>
+    <ion-card-header :router-link="'/details/' + game.id">
+      <ion-card-title class="pixel card-title"  size="small">{{ game.title }}</ion-card-title>
+    </ion-card-header>
+    <div class="card-content">
+      <ion-buttons>
+        <!-- Delete button -->
+        <ion-button fill="clear" class="pixel" @click="presentAlert(game.id)"><ion-img :src="Trash" class="icons"/>Slett</ion-button>
+      </ion-buttons>
+    </div>
+  </ion-card>
 </template>
 
 <style scoped>
@@ -148,7 +145,7 @@ ion-card-subtitle {
 }
 
 ion-button {
-    color: black;
+  color: black;
 }
 
 </style>

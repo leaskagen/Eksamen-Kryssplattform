@@ -65,15 +65,16 @@ export default {
   query = `${game.value.address} ${game.value.zip}`;
   console.log(query);
 
-  const response = await axios.get(`http://api.positionstack.com/v1/forward?access_key=${accessKey}&query=${query}`);
+  const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?street=${game.value.address}%2087&postcode=${game.value.zip}&city=${game.value.place}&country=Norway&format=json&limit=1&apiKey=d0559bad780a487e81424b4e4cd31097`)
 
-  latitude = response.data.data[0].latitude;
-  longitude = response.data.data[0].longitude;
+  //const response = await axios.get(`http://api.positionstack.com/v1/forward?access_key=${accessKey}&query=${query}&limit=1&country=NO`);
+  latitude = response.data.results[0].lat;
+  longitude = response.data.results[0].lon;
 
   console.log(latitude);
   console.log(longitude);
   
-  const key = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
+  const key = "AIzaSyDatigsvXJm8fc_fFMy-FCOEnJXqROiZ0c";
 
   // create the script element to load
   const googleMapScript = document.createElement("SCRIPT");

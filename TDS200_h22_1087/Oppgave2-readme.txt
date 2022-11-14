@@ -5,11 +5,12 @@ App-funksjonaliteter:
     Burgermeny:
     - Appen har en burgermeny som i stor grad brukes for å navigere mellom forskjellige sider.
     - Hvis man ikke er logget inn vil menyen kun ha lenke til innloggingssiden.
-    - 
 
     Visning av annonser:
     - En bruker kan se alle annonsene i en liste-format uten å være logget inn.
     - Brukeren kan bruke søkefeltet for å filtrere blant annonsene, listevisningen oppdateres mens brukeren skriver.
+    - Brukeren kan åpne en modal hvor de kan sortere søk etter dato, pris eller alfabetisk.
+    - I denne modalen kan man også velge å filtrere etter plattform, tilstand og sted.
     - Brukeren kan trykke seg inn på en annonse og få mer informasjon.
 
         Annonser:
@@ -26,10 +27,12 @@ App-funksjonaliteter:
             - Sted.
             - Post nummer.
         - Gjennom Google Maps har annonsene et lite kart som viser området hvor den oppgitte addressen er. (Det er mulig at kartet ikke fungerer, API nøkkelen hos Google er laget med en gratis prøveperiode som kanskje går ut før sensuren)
+            - Addressen i annonsen blir gjennom et API konvertert til koordinater som Google Maps bruker for å sentrere kartet
         - En bruker som er logget inn kan lagre favoritt annonsene sine, og fjerne de fra favoritter.
 
     Se lagrede annonser:
-    - Brukere som er logget inn kan se annonser som de har lagret i på en egen side
+    - Brukere som er logget inn kan se annonser som de har lagret i på en egen side.
+    - Før annonsene lastes er det en spinner på skjermen som indikerer at appen jobber.
 
     Lage ny annonse:
     - Bare brukere som er logget inn kan lage en ny annonse.
@@ -37,12 +40,12 @@ App-funksjonaliteter:
     - Brukeren kan fjerne bilder som er lastet opp.
     - Alle felt må være utfylt for å kunne lagre annonsen.
     - Postnummer må være gyldig (4 siffer og ikke inneholde bokstaver).
+    - Pris må være gyldig (1-6 siffer og verdi kan ikke være 0 eller inneholde bokstaver)
 
     Se mine annonser:
     - En bruker som er logget inn kan velge å bare se annonser som de selv har laget.
-    - En annonse kan slettes
-
-
+    - En annonse kan slettes.
+    - Før annonsene lastes er det en spinner på skjermen som indikerer at appen jobber.
 
     Logg inn og registrering:
     - Logg inn skjerm som er stylet som en gammel Game Boy.
@@ -58,6 +61,10 @@ App-funksjonaliteter:
         - Disse tre feltene kan også endres og oppdateres i Directus.
         - Når man laster opp et profilbilde kan man se en preview før man lagrer.
 
+App-styling:
+
+    - Jeg har prøvd å få fram retro spill temaet ved å bruke pikselerte ikoner og font
+    - Som primærfarge har jeg valgt en neon grønn farge for å gjøre appen livlig og spennende
 
 Referanser:
 
@@ -88,6 +95,4 @@ Referanser:
 
     - Kode / Tutorials:
         - Dinosaur spill: https://www.youtube.com/watch?v=i7nIutSLvdU
-    
-    - npm pakker:
-        - Swiper: https://swiperjs.com/
+        - Google Maps: https://dev.to/aaronksaunders/create-your-own-vue3-google-maps-component-with-ionic-framework-capacitor-735
