@@ -103,22 +103,23 @@ const fetchMessages = async () => {
         query {
             messages (filter: {
                 _or:
-                    [
-                        
-                            
-                                { sent_to: { _eq: "${seller.value.id}" } }, { user_created: { id: { _eq: "${user.value.id}" } } }, 
-
-                            
-                        
-                        
-                                { sent_to: { _eq: "${user.value.id}" } }, { user_created: { id: { _eq: "${seller.value.id}" } } }
-
-                            
-                    ]
-                }) {
-                message_text
-                id
-                sent_to
+                    [ {
+                        _and: [
+                            { sent_to: { _eq: "${seller.value.id}" } }, 
+                            { user_created: { id: { _eq: "${user.value.id}" } } }
+                        ]
+                    },
+                    {
+                        _and: [
+                            { sent_to: { _eq: "${user.value.id}" } },
+                            { user_created: { id: { _eq: "${seller.value.id}" } } }
+                        ]
+                    }  
+                ]
+            }) {
+            message_text
+            id
+            sent_to
 	    }
     }`);
     if (response.status === 200 && response.data) {

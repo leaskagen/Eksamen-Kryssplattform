@@ -182,7 +182,7 @@ ion-list-header {
 }
 
 ion-content {
-    --ion-background-color: #BF4EB6;
+    --ion-background-color: #85FF83;
     display: flex;
 }
 
@@ -309,15 +309,15 @@ ion-input {
 ion-list {
     display: flex;
     flex-direction: column;
-    --ion-background-color: #BF4EB6 !important;
+    --ion-background-color: #85FF83 !important;
 }
 
 ion-item {
-    --ion-background-color: #BF4EB6 !important;
+    --ion-background-color: #85FF83 !important;
 }
 
 .list-ios {
-    --ion-item-background: #BF4EB6 !important;
+    --ion-item-background: #85FF83 !important;
 }
 
 .label-mild {
