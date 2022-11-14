@@ -35,7 +35,7 @@ export default {
     const mapDivRef = ref(null);
 
     let query;
-  const accessKey = process.env.VUE_APP_POSITIONSTACK_API_KEY;
+    const accessKey = process.env.VUE_APP_POSITIONSTACK_API_KEY;
 
     onMounted(() => {
       

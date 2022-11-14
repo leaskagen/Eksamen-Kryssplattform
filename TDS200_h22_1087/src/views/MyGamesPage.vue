@@ -10,25 +10,31 @@
         <ion-title class="pixel header-title">Mine annonser</ion-title>
       </ion-toolbar>
     </ion-header>
+    <!-- Loading screen -->
+    <ion-content :fullscreen="true" class="loading" v-if="gamesHasLoaded.valueOf() == false">
+      <ion-spinner></ion-spinner>
+    </ion-content>
     <!-- If user has posted any games -->
-    <ion-content v-if="games.length > 0">
+    <ion-content v-if="gamesHasLoaded.valueOf() == true && games.length > 0" :fullscreen="true">
       <MyGameCard v-for="game in games" :key="game.id" :game="game" />
     </ion-content>
     <!-- If user has not posted any games -->
-    <ion-content v-else class="no-games">
+    <ion-content v-if="gamesHasLoaded.valueOf() == true && games.length == 0" class="no-games" :fullscreen="true">
       <ion-text>Ingen annonser å vise.<br/>Trykk <a href="/new">her</a> for å legge ut en annonse</ion-text>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonImg, IonText, IonHeader, IonButton, IonToolbar, IonButtons, IonBackButton, IonTitle, onIonViewWillEnter, IonContent } from "@ionic/vue";
+import { IonPage, IonImg, IonText, IonHeader, IonButton, IonToolbar, IonButtons, IonBackButton, IonTitle, onIonViewWillEnter, IonContent, IonSpinner } from "@ionic/vue";
 import { authService, directus } from "@/services/directus.service";
 import { IGameByUser, IGameByUserResponse } from "@/models/IGame";
 import MyGameCard from '@/components/MyGameCard.vue';
 import { IUser } from "@/models/IUser";
 import Back from '@/icons/back.png';
 import { ref } from "vue";
+
+const gamesHasLoaded = ref(false);
 
 const games = ref<IGameByUser[]>([]);
 
@@ -37,8 +43,8 @@ const user = ref<IUser>();
 onIonViewWillEnter(async () => {
   // Get user details
   user.value = await authService.currentUser();
-  console.log(user.value);
 
+  // Get games published by user
   fetchGames();
 });
 
@@ -72,6 +78,9 @@ const fetchGames = async () => {
   if (response.status === 200 && response.data) {
     games.value = [...response.data.games]; 
   }
+
+  // Set gamesHasLoaded to true to show content
+  gamesHasLoaded.value = true;
 }
 </script>
 
@@ -87,6 +96,13 @@ const fetchGames = async () => {
   height: 35px;
   object-fit: cover;
   margin: 0;
+}
+
+ion-spinner {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 </style>

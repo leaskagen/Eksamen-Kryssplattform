@@ -10,9 +10,9 @@
     <ion-content class="ion-padding">
       <!-- Menu items if user is not logged in -->
       <ion-list v-if="!isLoggedIn">
-        <ion-item >
-          <ion-menu-toggle>
-            <ion-text router-link="/login">Logg inn</ion-text>
+        <ion-item>
+          <ion-menu-toggle router-link="/login">
+            <ion-text>Logg inn</ion-text>
           </ion-menu-toggle>
         </ion-item>
       </ion-list>
@@ -20,35 +20,35 @@
       <div class="menu-logged-in" v-else>
         <ion-list>
           <ion-item>
-            <ion-menu-toggle>
-              <ion-text router-link="/new" class="pixel"><ion-img class="menu-icons" id="first-icon" :src="Note"></ion-img> Legg ut annonse</ion-text>
+            <ion-menu-toggle router-link="/new">
+              <ion-text class="pixel"><ion-img class="menu-icons" id="first-icon" :src="Note"></ion-img> Legg ut annonse</ion-text>
             </ion-menu-toggle>
           </ion-item>
           <ion-item>
-            <ion-menu-toggle>
-              <ion-text router-link="/myGames" class="pixel"><ion-img class="menu-icons" :src="Folder"></ion-img> Mine annonser</ion-text>
+            <ion-menu-toggle @click="$router.push('/myGames')">
+              <ion-text class="pixel"><ion-img class="menu-icons" :src="Folder"></ion-img> Mine annonser</ion-text>
             </ion-menu-toggle>
           </ion-item>
           <ion-item>
-            <ion-menu-toggle>
-              <ion-text router-link="/saved" class="pixel"><ion-img class="menu-icons chat-icon" :src="Star"></ion-img> Lagrede annonser</ion-text>
+            <ion-menu-toggle router-link="/saved">
+              <ion-text class="pixel"><ion-img class="menu-icons chat-icon" :src="Star"></ion-img> Lagrede annonser</ion-text>
             </ion-menu-toggle>
           </ion-item>
           <ion-item>
-            <ion-menu-toggle>
-              <ion-text router-link="/myGames" class="pixel"><ion-img class="menu-icons chat-icon" :src="Chat"></ion-img> Meldinger</ion-text>
+            <ion-menu-toggle router-link="/messages">
+              <ion-text class="pixel"><ion-img class="menu-icons chat-icon" :src="Chat"></ion-img> Meldinger</ion-text>
             </ion-menu-toggle>
           </ion-item>
         </ion-list>
         <ion-list>
           <ion-item >
-            <ion-menu-toggle>
-              <ion-text router-link="/profile" class="pixel"><ion-img class="menu-icons" :src="User"></ion-img> Min profil</ion-text>
+            <ion-menu-toggle router-link="/profile">
+              <ion-text class="pixel"><ion-img class="menu-icons" :src="User"></ion-img> Min profil</ion-text>
             </ion-menu-toggle>
           </ion-item>
           <ion-item>
-            <ion-menu-toggle>
-              <ion-text router-link="/login" @click="logout()" class="pixel"> Logg ut</ion-text>
+            <ion-menu-toggle router-link="/login" @click="logout()">
+              <ion-text class="pixel"> Logg ut</ion-text>
             </ion-menu-toggle>
           </ion-item>
         </ion-list>
