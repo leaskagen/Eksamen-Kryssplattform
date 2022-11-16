@@ -66,10 +66,17 @@ App-funksjonaliteter:
         - Man kan på en egen side se alle brukere du har sendt melding til eller fått melding fra
         - Hvis sender melding til en annen bruker kan man logge inn på den andre brukeren og få opp meldingen der
 
+    - Favoritter:
+        - Brukere som er logget inn kan lagre annonser som favoritter.
+        - Favoritter kan sees på en egen side.
+        - Favoritter siden har en spinner som indikerer at appen jobber.
+        - Favoritter siden fungerer i nettleser, men er buggy på telefonen
+
 App-styling:
 
     - Jeg har prøvd å få fram retro spill temaet ved å bruke pikselerte ikoner og font
     - Som primærfarge har jeg valgt en neon grønn farge for å gjøre appen livlig og spennende
+
 
 Referanser:
 
