@@ -7,28 +7,34 @@
                         <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
                     </ion-button>
                 </ion-buttons>
+                <!-- Seller's name -->
                 <ion-title class="pixel header-title">{{seller?.first_name}}</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
+            <!-- All messages are showed here -->
             <div class="messages-container">
                 <div class="messages" v-for="message in messages" :key="message">
+                    <!-- If message is sent from current user -->
                     <div class="message" v-if="message.sent_to == seller?.id">
                         <ion-text>{{message.message_text}}</ion-text>
                     </div>
+                    <!-- If message is sent from seller -->
                     <div class="message recieved" v-else>
                         <ion-text>{{message.message_text}}</ion-text>
                     </div>
                 </div>
             </div>
+            <!-- Input field for new message -->
             <ion-list class="message-textarea" lines="none">
                 <ion-item>
                     <ion-textarea :placeholder="`Send melding til ${seller?.first_name}!`" :autoGrow="true" v-model="newMessage.messageText"></ion-textarea>
+                    <!-- Send button -->
                     <ion-button class="send-button pixel" @click="sendMessage()" color="dark">Send</ion-button>
                 </ion-item>
             </ion-list>
         </ion-content>
-  </ion-page>
+    </ion-page>
 </template>
 
 <script setup lang="ts">
