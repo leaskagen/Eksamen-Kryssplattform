@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import { IonButton, IonText, IonContent, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonToggle, IonCard, toastController, IonTitle } from '@ionic/vue';
 import { authService } from '@/services/directus.service';
-import { IonButton, IonText, IonContent, IonInput, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonToggle, IonCard, IonTitle, onIonViewDidLeave } from '@ionic/vue';
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 const router = useRouter();
-
-/* State */
 
 // The user can toggle between login and register mode in the form to show/hide additional fields
 const inRegisterMode = ref(false);
@@ -24,7 +22,10 @@ const login = async () => {
         await authService.login(userDetails.value.email, userDetails.value.password);
         router.push('/home');
     } catch (error) {
-        console.error(error);
+        toastController.create({
+            message: 'Feil email eller passord',
+            duration: 2000
+        }).then(toast => toast.present());
     }
 }
 
@@ -33,7 +34,10 @@ const register = async () => {
         await authService.register(userDetails.value.firstName, userDetails.value.email, userDetails.value.password);
         await login();
     } catch (error) {
-        console.log(error);
+        toastController.create({
+            message: 'Det er allerede registrert en bruker med denne emailen',
+            duration: 2000
+        }).then(toast => toast.present());
     }
 } 
 
@@ -51,16 +55,20 @@ function jump(){
 
     cactus = document.getElementById('cactus');
     dino = document.getElementById('dino');
+    // Check location of dino and cactus
     let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue('top'));
     let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue('left'));
+    // Check if dino is dead
     if(cactusLeft < 35 && cactusLeft > 0 && dinoTop >= 145){
-        console.log('game over');
+        // Game over
+        return;
     } else {
+        // Add to score count
         score = document.getElementById("score");
         scoreCount += 1;
         score.innerHTML = scoreCount;
         dino = document.getElementById('dino');
-        console.log("jump");
+        // If dino is not already jumping, jump
         if(dino?.classList != 'jump'){
             dino.classList.add('jump');
         }
@@ -72,14 +80,15 @@ function jump(){
 
 // Checks if the dino is touching the cactus
 function isAlive(){
-    console.log(inGameMode.value);
     if(inGameMode.value == false){
         interval = setInterval(function(){
             cactus = document.getElementById('cactus');
             dino = document.getElementById('dino');
             gameOverTitle = document.getElementById("game-title");
+            // Check location of dino and cactus
             let dinoTop = parseInt(window.getComputedStyle(dino).getPropertyValue('top'));
             let cactusLeft = parseInt(window.getComputedStyle(cactus).getPropertyValue('left'));
+            // If dino and cactus are touching, game over
             if(cactusLeft < 35 && cactusLeft > 0 && dinoTop >= 145){
                 dino.style.animationPlayState = 'paused';
                 cactus.style.animationPlayState = 'paused';
@@ -102,7 +111,7 @@ function isAlive(){
                 <ion-list-header>
                     <ion-label class="pixel">Retro Trader</ion-label>
                 </ion-list-header>
-
+                <!-- Game screen -->
                 <ion-card class="input-screen" id="dino-screen" v-if="inGameMode">
                     <div class="game-screen">
                         <ion-text class="pixel score-board">Score: <span id="score" ref="score">0</span></ion-text>
@@ -111,7 +120,7 @@ function isAlive(){
                         <div class="cactus" id="cactus" ref="cactus"></div>
                     </div>
                 </ion-card>
-
+                <!-- Login screen -->
                 <ion-card class="input-screen" id="login-screen" v-else>
                     <ion-item v-if="inRegisterMode" lines="none">
                         <ion-label class="label-mild pixel" position="floating">Fornavn</ion-label>
@@ -128,7 +137,7 @@ function isAlive(){
                         <ion-input type="password" v-model="userDetails.password" class="pixel"></ion-input>
                     </ion-item>
                 </ion-card>
-                
+                <!-- Toggle buttons -->
                 <ion-item lines="none" class="toggle-container">
                     <div class="toggles">
                         <ion-label class="label-mild pixel">Ny bruker</ion-label>
@@ -139,21 +148,19 @@ function isAlive(){
                         <ion-toggle color="dark" @ion-change="inGameMode = !inGameMode" @click="isAlive()"></ion-toggle>
                     </div>
                 </ion-item>
-                </ion-list>
-                <ion-button v-if="inRegisterMode" @click="register()" class="button-auth pixel" fill="solid" color="light" size="default">
-                    Registrer
-                </ion-button>
-
-                <ion-button v-else @click="login()" class="button-auth pixel" fill="solid" color="light" size="default">
-                    Logg inn
-                </ion-button>
-
-                <ion-button @click="jump()" class="button-jump pixel" color="warning" >
-                    Jump
-                </ion-button>
-
-            
-
+            </ion-list>
+            <!-- Register button -->
+            <ion-button v-if="inRegisterMode" @click="register()" class="button-auth pixel" fill="solid" color="light" size="default">
+                Registrer
+            </ion-button>
+            <!-- Login button -->
+            <ion-button v-else @click="login()" class="button-auth pixel" fill="solid" color="light" size="default">
+                Logg inn
+            </ion-button>
+            <!-- Jump button -->
+            <ion-button @click="jump()" class="button-jump pixel" color="warning" >
+                Jump
+            </ion-button>
         </ion-content>
     </ion-page>
 </template>
@@ -174,11 +181,6 @@ ion-page {
 ion-list-header {
     text-align: center;
     font-size: 2em;
-
-    /*
-    color: #000;
-    --ion-label-color: #000;
-    */
 }
 
 ion-content {
@@ -187,9 +189,7 @@ ion-content {
 }
 
 .input-screen {
-    /*--ion-background-color: #dbd2bd;*/
     --ion-item-background: #dbd2bd;
-    /*--ion-card-background: #dbd2bd;*/
     border-radius: 5px;
     width: 85%;
     height: 250px;
@@ -323,11 +323,6 @@ ion-item {
 .label-mild {
    --color: black !important;
    color: #000000 !important;
-}
-
-.hero-image {
-    width: 80vw;
-    align-self: center;
 }
 
 .button-auth {

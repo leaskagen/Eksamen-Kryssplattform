@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { IonPage, IonImg, IonText, IonHeader, IonButton, IonToolbar, IonButtons, IonTitle, onIonViewWillEnter, IonContent, IonSpinner } from "@ionic/vue";
 import { authService, directus } from "@/services/directus.service";
-import { IGameByUser, IGameByUserResponse } from "@/models/IGame";
+import { IGameByUser, IGamesByUser } from "@/models/IGame";
 import MyGameCard from '@/components/MyGameCard.vue';
 import { IUser } from "@/models/IUser";
 import Back from '@/icons/back.png';
@@ -51,7 +51,7 @@ onIonViewWillEnter(async () => {
 
 // Get game by user id from Directus
 const fetchGames = async () => {
-  const response = await directus.graphql.items<IGameByUserResponse>(`
+  const response = await directus.graphql.items<IGamesByUser>(`
     query {
       games(filter: { user_created: { id: { _eq: "${user.value?.id}"} } }) {
         id,
@@ -65,7 +65,6 @@ const fetchGames = async () => {
       }
     }
   `);
-
   if (response.status === 200 && response.data) {
     games.value = [...response.data.games]; 
   }

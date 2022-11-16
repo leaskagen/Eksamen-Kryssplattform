@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { IonButton, IonContent, IonText, IonButtons, IonHeader, IonPage, IonImg, IonTitle, IonToolbar, onIonViewWillEnter } from '@ionic/vue';
-import { IFavorite, IFavoriteId, IFavorites } from '@/models/IFavorite';
 import { IGameDetailsResponse, IGameDetails } from '@/models/IGame';
 import { directus, authService } from '@/services/directus.service';
+import { IFavoriteId, IFetchFavorites } from '@/models/IFavorite';
 import GoogleMaps from '@/components/GoogleMaps.vue';
 import StarYellow from '@/icons/star-yellow.png';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -16,11 +16,17 @@ import "swiper/css/pagination";
 import { ref } from 'vue';
 import 'swiper/css';
 
+// modules for swiper
+const modules = [Pagination];
+
 const favoriteStatus = ref<boolean>(false);
 const favoriteId = ref<any>();
+
+// filepath for images
 const filePath = 'https://bi5voh2i.directus.app/assets/';
 
 const isLoggedIn = ref(false);
+
 const route = useRoute();
 
 const { id } = route.params;
@@ -31,7 +37,7 @@ const user = ref<IUser>();
 
 const seller = ref<IUser>();
 
-var chatId = ref<any>();
+var chatId = ref<string>();
 
 onIonViewWillEnter(async () => {
   checkIfLoggedIn();
@@ -39,8 +45,6 @@ onIonViewWillEnter(async () => {
   if (isLoggedIn.value) {
     user.value = await authService.currentUser();
     checkIfFavorited();
-  } else {
-    console.log('not logged in');
   }
 });
 
@@ -49,17 +53,15 @@ const checkIfLoggedIn = async () => {
   var auth_token = localStorage.getItem('auth_token');
   if (auth_token) {
     isLoggedIn.value = true;
-    console.log(`isLoggedIn: ${isLoggedIn.value}`);
   }
   else {
     isLoggedIn.value = false;
-    console.log(`isLoggedIn: ${isLoggedIn.value}`);
   }
 }
 
 // Checks if the game is already favorited
 const checkIfFavorited = async () => {
-  const response = await directus.graphql.items<IFavorites[]>(`
+  const response = await directus.graphql.items<IFetchFavorites>(`
     query {
       favorite_games(filter: { user_created: { id: { _eq: "${user.value?.id}" } }, games_id: { _eq: "${id}" } }) {
         id,
@@ -70,7 +72,6 @@ const checkIfFavorited = async () => {
       }
     }
   `);
-
   if (response.status === 200 && response.data) {
     favoriteId.value = response.data.favorite_games[0].id;
     favoriteStatus.value = true;
@@ -110,18 +111,12 @@ const fetchGames = async () => {
 
   if (response.status === 200 && response.data) {
     game.value = response.data.games_by_id; 
-    console.log(game.value);
-    
+
     seller.value = game.value.user_created;
     console.log(seller.value);
     chatId.value = `/chat/${seller.value.id}`;
   }
 }
-
-// Structure for new game
-const favorite = ref<IFavorite>({
-    games_id: '',
-});
 
 const toggleFavorite = () => {
   favoriteStatus.value = !favoriteStatus.value;
@@ -148,8 +143,6 @@ const removeFavorite = async () => {
     }
   `);
 }
-
-const modules = [Pagination];
 
 </script>
 <template>

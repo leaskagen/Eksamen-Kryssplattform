@@ -5,6 +5,15 @@ App-funksjonaliteter:
     Burgermeny:
     - Appen har en burgermeny som i stor grad brukes for å navigere mellom forskjellige sider.
     - Hvis man ikke er logget inn vil menyen kun ha lenke til innloggingssiden.
+    - Når man er logget inn vil man ha tilgang til en meny som inneholder lenker til:
+        - Profilsiden
+        - Legg ut ny annonse
+        - Mine annonser
+        - Meldinger
+        - Lagrede annonser
+        - Logg ut
+    - Måten menyen er laget vil kun innloggede brukere kunne besøke de forskjellige sidene (untatt logg inn),
+    men hvis noen skulle klare å komme seg inn på en side som ikke er tilgjengelig for dem vil routeren redirigere dem til logg inn siden
 
     Visning av annonser:
     - En bruker kan se alle annonsene i en liste-format uten å være logget inn.
@@ -70,15 +79,21 @@ App-funksjonaliteter:
         - Brukere som er logget inn kan lagre annonser som favoritter.
         - Favoritter kan sees på en egen side.
         - Favoritter siden har en spinner som indikerer at appen jobber.
-        - Favoritter siden fungerer i nettleser, men er buggy på telefonen
+        - Denne siden sluttet plutselig å fungere og jeg begynte plutselig å få denne feilmeldingen:
+            'Unhandled error during execution of scheduler flush. This is likely a Vue internals bug.' :(
 
 App-styling:
 
-    - Jeg har prøvd å få fram retro spill temaet ved å bruke pikselerte ikoner og font
+    - Jeg har prøvd å få fram et gjennomgående retro spill tema ved å bruke pikselerte ikoner og font
     - Som primærfarge har jeg valgt en neon grønn farge for å gjøre appen livlig og spennende
-
+    - Fordi jeg har valgt en neon grønn tema farge har jeg med vilje ikke brukt rød farge på viktige 
+    elementer av hensyn til at rød-grønn fargeblindhet er den vanligste fargeblindheten
 
 Referanser:
+
+    - APIer (utenom directus):
+        - forward geocoding (konvertere adresse til koordinater): https://www.geoapify.com/
+        - kart: https://developers.google.com/maps/documentation/javascript/overview
 
     - Font:
         - https://www.fontspace.com/pixeloid-font-f69232

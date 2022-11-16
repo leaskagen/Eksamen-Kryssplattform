@@ -49,7 +49,7 @@ export interface IGameDetails {
 }
 
 export interface IGameDetailsResponse {
-    game: IGameDetails[];
+    games_by_id: IGameDetails[];
 }
 
 export interface IGameImage {
@@ -131,4 +131,17 @@ export interface IGameById {
         place: string;
         zip: string;
     }
+}
+
+export interface IGamesByUser {
+    games: {
+        id: string;
+        images: [{
+            id: number;
+            directus_files_id: {
+                id: string;
+            }
+        }];
+        title: string;
+    };
 }
