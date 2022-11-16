@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { IonImg, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/vue';
-import { pricetag, location } from 'ionicons/icons';
-import Banknote from '@/icons/banknote.png';
+import { IonImg, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/vue';
 import MapMarker from '@/icons/map-marker.png';
 import Coin from '@/icons/coin.png';
 import { defineProps } from 'vue';
@@ -17,13 +15,8 @@ interface Props {
       }
     }];
     title: string;
-    description: string;
-    platform: string;
     price: number;
-    condition: string;
-    address: string;
     place: string;
-    zip: string;
   }
 }
 
@@ -35,6 +28,7 @@ const filePath = 'https://bi5voh2i.directus.app/assets/';
 
 <template>
     <ion-card :router-link="'/details/' + game.id">
+      <!-- Game Card for Home Page and Saved Games Page -->
         <ion-img :src="filePath + game.images[0].directus_files_id.id"/>
         <ion-card-header>
           <ion-card-title class="pixel card-title"  size="small">{{ game.title }}</ion-card-title>
