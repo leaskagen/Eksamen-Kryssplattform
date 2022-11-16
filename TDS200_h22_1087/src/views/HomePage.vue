@@ -170,7 +170,7 @@ function clearFilter() {
       <!-- Games are listed here-->
       <GameCard v-for="game in games" :key="game.id" :game="game"/>
     </ion-content>
-    <!-- Modal for filter -->
+    <!-- Modal for filter and sort -->
     <ion-modal ref="modal" trigger="open-modal" :initial-breakpoint="0.25" :breakpoints="[0, 0.25, 0.5, 0.75, 1]">
       <ion-content class="ion-padding">
 
