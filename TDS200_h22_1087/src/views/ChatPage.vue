@@ -7,13 +7,13 @@
                         <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
                     </ion-button>
                 </ion-buttons>
-                <ion-title class="pixel header-title">{{seller.first_name}}</ion-title>
+                <ion-title class="pixel header-title">{{seller?.first_name}}</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
             <div class="messages-container">
                 <div class="messages" v-for="message in messages" :key="message">
-                    <div class="message" v-if="message.sent_to == seller.id">
+                    <div class="message" v-if="message.sent_to == seller?.id">
                         <ion-text>{{message.message_text}}</ion-text>
                     </div>
                     <div class="message recieved" v-else>
@@ -23,7 +23,7 @@
             </div>
             <ion-list class="message-textarea" lines="none">
                 <ion-item>
-                    <ion-textarea :placeholder="`Send melding til ${seller.first_name}!`" :autoGrow="true" v-model="newMessage.messageText"></ion-textarea>
+                    <ion-textarea :placeholder="`Send melding til ${seller?.first_name}!`" :autoGrow="true" v-model="newMessage.messageText"></ion-textarea>
                     <ion-button class="send-button pixel" @click="sendMessage()" color="dark">Send</ion-button>
                 </ion-item>
             </ion-list>
@@ -33,73 +33,68 @@
 
 <script setup lang="ts">
 import { IonButtons, IonText, IonTextarea, IonList, IonItem, IonImg, IonButton, onIonViewWillEnter, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { IMessage } from '@/models/IMessage';
-import { defineProps } from 'vue';
-import Back from '@/icons/back.png';
-import { useRoute } from 'vue-router';
+import { IMessage, IMessages, INewMessage } from '@/models/IMessage';
 import { directus, authService } from '@/services/directus.service';
-import { IUser } from '@/models/IUser';
+import { IUser, IUserById, ISeller } from '@/models/IUser';
+import { useRoute } from 'vue-router';
+import Back from '@/icons/back.png';
 import { ref } from 'vue';
 
 const route = useRoute();
 
 const { id } = route.params;
 
-const seller = ref<any>({});
+const seller = ref<ISeller>();
 
-    const user = ref<IUser>();
-//const messageText = ref<string>('');
+const user = ref<IUser>();
 
 const messages = ref<IMessage[]>([]);
 
-    const newMessage = ref<any>({
+const newMessage = ref<INewMessage>({
     messageText: '',
     sentTo: '',
 });
 
 onIonViewWillEnter( async () => {
     user.value = await authService.currentUser();
-    console.log(id);
     await fetchSeller();
     fetchMessages();
   
 });
 
 const fetchSeller = async () => {
-  const response = await directus.graphql.system(`
+    // Get user details for the seller
+  const response = await directus.graphql.system<IUserById>(`
     query {
       users_by_id(id: "${id}") {
         id
         first_name
-        avatar {
-            id
-        }
       }
     }
   `);
  
   if (response.status === 200 && response.data) {
     seller.value = response.data.users_by_id; 
-    console.log(seller.value);
   }
 }
 
 const sendMessage = async () => {
-    //newMessage.value.messageText = 
+    // If message is empty, do nothing
     if (newMessage.value.messageText == '') {
-        console.log('empty');
+        return;
+    } else {
+        const response = await directus.items('messages').createOne({
+            message_text: newMessage.value.messageText,
+            sent_to: seller.value.id,
+        });
+        messages.value.push(response);
     }
-    const response = await directus.items('messages').createOne({
-        message_text: newMessage.value.messageText,
-        sent_to: seller.value.id,
-    });
-
-    console.log(response);
-    messages.value.push(response);
 }
 
 const fetchMessages = async () => {
-    const response = await directus.graphql.items<IMessage>(`
+    // Get all messages that current user has sent to seller
+    // and all messages that seller has sent to current user
+    const response = await directus.graphql.items<IMessages>(`
         query {
             messages (filter: {
                 _or:
@@ -124,8 +119,6 @@ const fetchMessages = async () => {
     }`);
     if (response.status === 200 && response.data) {
         messages.value = [...response.data.messages];
-       
-        console.log(messages.value);
     }
 }
 
@@ -182,8 +175,8 @@ const fetchMessages = async () => {
     width: 100%;
     padding: 1em 0.5em;
     box-shadow: 0px -1px 16px -4px rgba(0,0,0,0.39);
--webkit-box-shadow: 0px -1px 16px -4px rgba(0,0,0,0.39);
--moz-box-shadow: 0px -1px 16px -4px rgba(0,0,0,0.39);
+    -webkit-box-shadow: 0px -1px 16px -4px rgba(0,0,0,0.39);
+    -moz-box-shadow: 0px -1px 16px -4px rgba(0,0,0,0.39);
 }
 ion-textarea {
     height: auto;

@@ -4,6 +4,10 @@ export interface IMessage {
     sent_to: string;
 }
 
+export interface IMessages {
+    messages: IMessage[];
+}
+
 export interface IMessageResponse {
     id: string;
     message_text: string;
@@ -19,4 +23,9 @@ export interface IChat {
     avatar: {
         id: string;
     };
+}
+
+export interface INewMessage {
+    messageText: string;
+    sentTo: string;
 }

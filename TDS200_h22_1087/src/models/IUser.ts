@@ -8,3 +8,15 @@ export interface IUser {
 export interface IUserResponse {
     user: IUser[];
 }
+
+export interface ISeller {
+    id: string;
+    first_name: string;
+}
+
+export interface IUserById {
+    users_by_id: {
+        id: string;
+        first_name: string; 
+    }
+}
