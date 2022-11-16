@@ -6,7 +6,6 @@
                     <ion-button class="back-button">
                         <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
                     </ion-button>
-                <!--<ion-back-button default-href="/" router-link="/"></ion-back-button>-->
                 </ion-buttons>
                 <ion-title class="pixel header-title">Min profil</ion-title>
             </ion-toolbar>
@@ -38,10 +37,12 @@
             <!-- Edit profile information-->
             <div v-else>
                 <ion-item>
+                    <!-- First name input -->
                     <ion-label>Fornavn:</ion-label>
                     <ion-input v-model="newUser.first_name" :placeholder="user?.first_name"></ion-input>
                 </ion-item>
                 <ion-item>
+                    <!-- Email input -->
                     <ion-label>Email:</ion-label>
                     <ion-input v-model="newUser.email" :placeholder="user?.email"></ion-input>
                 </ion-item>
@@ -59,14 +60,14 @@
     </ion-page>
 </template>
 <script setup lang="ts">
-import { IonPage, toastController, onIonViewWillEnter, IonTitle, IonButton, IonItem, IonLabel, IonInput, IonHeader, IonToolbar, IonButtons, IonBackButton, IonContent, IonText, IonImg } from '@ionic/vue';
+import { IonPage, toastController, onIonViewWillEnter, IonTitle, IonButton, IonItem, IonLabel, IonInput, IonHeader, IonToolbar, IonButtons, IonContent, IonText, IonImg } from '@ionic/vue';
 import { authService, directus } from '@/services/directus.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { IUser, IUserResponse } from '@/models/IUser';
-import { ref } from 'vue';
+import { IUser } from '@/models/IUser';
 import User from '@/icons/users.png';
 import Mail from '@/icons/mail.png';
 import Back from '@/icons/back.png';
+import { ref } from 'vue';
 
 // Toggle between edit mode and normal mode
 const editMode = ref(false);
@@ -80,6 +81,7 @@ const imagePreview = ref<string>('');
 
 const user = ref<IUser>();
 
+// New user information
 const newUser = ref<IUser>({
     id: '',
     first_name: '',
@@ -128,7 +130,7 @@ const updateUser = async () => {
     }
 
     // Update user information in directus
-    const response = await directus.users.me.update<IUser>({
+    await directus.users.me.update<IUser>({
         first_name: newUser.value.first_name,
         email: newUser.value.email, 
         avatar: newUser.value.avatar,
