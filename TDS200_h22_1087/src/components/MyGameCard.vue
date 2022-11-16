@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { IonImg, toastController, IonButton, IonButtons, alertController, IonCard, IonCardHeader, IonCardTitle } from '@ionic/vue';
 import { directus } from '@/services/directus.service';
-import Edit from '@/icons/edit-button.png';
 import Trash from '@/icons/trash-bin.png';
 import { defineProps } from 'vue';
 
@@ -18,13 +17,6 @@ interface Props {
       }
     }];
     title: string;
-    description: string;
-    platform: string;
-    price: number;
-    condition: string;
-    address: string;
-    place: string;
-    zip: string;
   }
 }
 
@@ -87,6 +79,7 @@ const deleteGame = async (game: string) => {
 
 <template>
   <ion-card :id="cardId+game.id" ref="gameCard">
+    <!-- Game Card for My Games Page -->
     <ion-img :src="filePath + game.images[0].directus_files_id.id" :router-link="'/details/' + game.id"/>
     <ion-card-header :router-link="'/details/' + game.id">
       <ion-card-title class="pixel card-title"  size="small">{{ game.title }}</ion-card-title>
