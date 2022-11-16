@@ -1,7 +1,9 @@
 <template>
   <ion-menu content-id="main-page" @ion-will-open="checkIfLoggedIn()">
+    <!-- Burger Menu -->
     <ion-header :translucent="true">
       <ion-toolbar>
+        <!-- ion-menu-toggle to close burger menu when going to another page -->
         <ion-menu-toggle>
           <ion-title class="pixel" router-link="/home">Retro Trader</ion-title>
         </ion-menu-toggle>
@@ -58,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonImg, IonMenuToggle, IonText, IonList, IonItem, IonHeader,  IonTitle, IonToolbar, onIonViewDidEnter, IonMenu, onIonViewWillEnter } from '@ionic/vue';
+import { IonContent, IonImg, IonMenuToggle, IonText, IonList, IonItem, IonHeader,  IonTitle, IonToolbar, IonMenu } from '@ionic/vue';
 import { authService } from '@/services/directus.service';
 import User from '@/icons/profile-avatar.png';
 import Folder from '@/icons/folder.png';
