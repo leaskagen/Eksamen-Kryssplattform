@@ -61,6 +61,11 @@ App-funksjonaliteter:
         - Disse tre feltene kan også endres og oppdateres i Directus.
         - Når man laster opp et profilbilde kan man se en preview før man lagrer.
 
+    - Meldinger:
+        - Brukere kan sende meldinger til hverandre gjennom annonser.
+        - Man kan på en egen side se alle brukere du har sendt melding til eller fått melding fra
+        - Hvis sender melding til en annen bruker kan man logge inn på den andre brukeren og få opp meldingen der
+
 App-styling:
 
     - Jeg har prøvd å få fram retro spill temaet ved å bruke pikselerte ikoner og font

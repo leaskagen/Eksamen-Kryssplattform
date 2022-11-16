@@ -1,14 +1,14 @@
 <template>
     <ion-page id="main-page">
         <ion-header :translucent="true">
-        <ion-toolbar>
-            <ion-buttons slot="start">
-                <ion-button class="back-button">
-                    <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
-                </ion-button>
-            </ion-buttons>
-            <ion-title class="pixel header-title">{{seller.first_name}}</ion-title>
-        </ion-toolbar>
+            <ion-toolbar>
+                <ion-buttons slot="start">
+                    <ion-button class="back-button">
+                        <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
+                    </ion-button>
+                </ion-buttons>
+                <ion-title class="pixel header-title">{{seller.first_name}}</ion-title>
+            </ion-toolbar>
         </ion-header>
         <ion-content :fullscreen="true">
             <div class="messages-container">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="message recieved" v-else>
                         <ion-text>{{message.message_text}}</ion-text>
-                        </div>
+                    </div>
                 </div>
             </div>
             <ion-list class="message-textarea" lines="none">
@@ -103,7 +103,7 @@ const fetchMessages = async () => {
         query {
             messages (filter: {
                 _or:
-                    [ {
+                    [{
                         _and: [
                             { sent_to: { _eq: "${seller.value.id}" } }, 
                             { user_created: { id: { _eq: "${user.value.id}" } } }

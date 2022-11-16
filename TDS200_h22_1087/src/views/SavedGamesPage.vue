@@ -8,6 +8,7 @@ import Back from '@/icons/back.png';
 import { ref } from 'vue';
 
 const gamesHasLoaded = ref(false);
+const toggleGamesHasLoaded = () => gamesHasLoaded.value = !gamesHasLoaded.value;
 
 const games = ref<IGame[]>([]);
 
@@ -17,7 +18,8 @@ const user = ref<IUser>();
 
 onIonViewWillEnter(async () => {
   user.value = await authService.currentUser();
-  fetchFavorites();
+  await fetchFavorites();
+  toggleGamesHasLoaded();
 });
 
 // Get favorites by user id from Directus
@@ -63,10 +65,11 @@ const fetchGames = async () => {
     `);
     if (response.status === 200 && response.data) {
       games.value.push(response.data.games_by_id);
-    }      
+    }
+    //gamesHasLoaded.value = true;
   });
-  // Set gamesHasLoaded to true to show content
-  gamesHasLoaded.value = true;
+
+  
 }
 
 </script>

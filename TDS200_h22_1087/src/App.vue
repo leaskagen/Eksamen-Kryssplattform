@@ -34,10 +34,6 @@ export default defineComponent({
 }
 
 ion-toolbar {
-  /*
-  --background: #BF4EB6;
-  */
-
   --background: #85FF83;
   --color: #000;
 }
@@ -58,12 +54,6 @@ ion-back-button {
   --background: #85FF83;
   color: black;
 }
-
-/*
-ion-title {
-  width: 100%;
-}
-*/
 
 .swiper-pagination-bullet-active {
   --swiper-pagination-color: #85FF83 !important;

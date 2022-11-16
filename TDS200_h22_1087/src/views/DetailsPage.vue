@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { IonButton, IonContent, IonText, IonButtons, IonHeader, IonModal, IonTextarea, IonPage, IonImg, IonTitle, IonToolbar, onIonViewWillEnter } from '@ionic/vue';
-import { directus } from '@/services/directus.service';
+import { IonButton, IonContent, IonText, IonButtons, IonHeader, IonPage, IonImg, IonTitle, IonToolbar, onIonViewWillEnter } from '@ionic/vue';
+import { IFavorite, IFavoriteId, IFavorites } from '@/models/IFavorite';
 import { IGameDetailsResponse, IGameDetails } from '@/models/IGame';
+import { directus, authService } from '@/services/directus.service';
 import GoogleMaps from '@/components/GoogleMaps.vue';
+import StarYellow from '@/icons/star-yellow.png';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { IUser } from '@/models/IUser';
 import { useRoute } from 'vue-router';
 import { Pagination } from "swiper";
+import Star from '@/icons/star.png';
+import Chat from '@/icons/chat.png';
+import Back from '@/icons/back.png';
 import "swiper/css/pagination";
 import { ref } from 'vue';
 import 'swiper/css';
-import Star from '@/icons/star.png';
-import StarYellow from '@/icons/star-yellow.png';
-import Chat from '@/icons/chat.png';
-import Back from '@/icons/back.png';
-import { IFavorite, IFavoriteId, IFavoriteResponse, IFavorites } from '@/models/IFavorite';
-import { authService } from '@/services/directus.service';
-import { IUser } from '@/models/IUser';
-
 
 const favoriteStatus = ref<boolean>(false);
 const favoriteId = ref<any>();
@@ -184,34 +182,26 @@ const modules = [Pagination];
         <p class="game-title pixel">{{ game.title }}<br/></p>
         <div class="game-subtitle">
           <p class="game-price pixel">{{ game.price }} kr<br/></p>
+          <!-- If user is logged inn, show messages button and favorite button -->
           <div v-if="user">
             <ion-img class="favorite-img chat" :src="Chat" :router-link="chatId"></ion-img>
             <ion-img class="favorite-img" :src="favoriteStatus ? StarYellow : Star" @click="toggleFavorite()"></ion-img>
           </div>
         </div>
-        
-        
+        <!-- Game description -->
         <ion-text class="pixel">{{ game.description }}<br/><br/></ion-text>  
+        <!-- Other game details -->
         <div class="game-info">
-          
           <ion-text class="pixel">Plattform:<br/> {{ game.platform }}<br/><br/></ion-text>
           <ion-text class="pixel">Tilstand:<br/> {{ game.condition }}<br/><br/></ion-text>
           <ion-text class="pixel">Addresse:<br/> {{ game.address }}<br/> {{ game.zip }} {{ game.place }}</ion-text>
-
+          <!-- Google Maps -->
           <div class="map-container">
             <GoogleMaps></GoogleMaps> 
           </div> 
         </div>  
       </div>
-      <ion-modal ref="modal" trigger="open-message" :initial-breakpoint="0.25" :breakpoints="[0, 0.25, 0.5, 0.75]">
-      <ion-content class="ion-padding">
-        <ion-text class="pixel">Send besked til sælger</ion-text>
-        <ion-textarea class="message-textarea" placeholder="Skriv din besked her"></ion-textarea>
-        <ion-button class="send-message-button">Send besked</ion-button>
-      </ion-content>
-    </ion-modal>
     </ion-content>
-    
   </ion-page>
 </template>
 
@@ -231,11 +221,7 @@ const modules = [Pagination];
   display: flex;
   flex-direction: column;
 }
-/*
-.game-info ion-text:last-of-type {
-  padding-left: 1em !important;
-}
-*/
+
 .game-price {
   font-weight: bold;
   font-size: 20px;
@@ -257,17 +243,6 @@ ion-text {
   width: 100%;
 }
 
-/*
-ion-title {
-  display: block;
-  position: relative;
-  text-align: left;
-  width: 100vw;
-  padding-bottom: 1em !important;
-  --ion-padding-bottom: 1em !important;
-  --padding-bottom: 1em   !important;
-}
-*/
 .swiper-images {
   height: 300px;
   width: auto;
