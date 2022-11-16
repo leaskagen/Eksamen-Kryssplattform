@@ -14,6 +14,15 @@ export interface IFavoriteResponse {
     games_id: string;
 }
 
+export interface IFavoriteGames {
+    id: string;
+    games_id: string;
+}
+
 export interface IFavoriteId  {
     id: string;
+}
+
+export interface IFetchFavorites {
+    favorite_games: IFavoriteGames[];
 }

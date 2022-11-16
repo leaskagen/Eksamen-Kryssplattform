@@ -1,5 +1,5 @@
 export interface IGame {
-    id: number;
+    id: string;
     images: [{
         id: number;
         games_id: number;
@@ -22,7 +22,7 @@ export interface IGameResponse {
 }
 
 export interface IGameDetails {
-    id: number;
+    id: string;
     images: [{
         id: number;
         games_id: number;
@@ -53,7 +53,7 @@ export interface IGameDetailsResponse {
 }
 
 export interface IGameImage {
-    id: number;
+    id: string;
     games_id: number;
     directus_files_id: {
         id: string;
@@ -87,7 +87,7 @@ export interface INewGameImages {
 }
 
 export interface IGameByUser {
-    id: number;
+    id: string;
     images: [{
         id: number;
         games_id: number;
@@ -110,4 +110,25 @@ export interface IGameByUser {
 
 export interface IGameByUserResponse {
     game: IGameByUser[];
+}
+
+export interface IGameById {
+    games_by_id: {
+        id: string;
+        images: [{
+            id: number;
+            games_id: number;
+            directus_files_id: {
+                id: string;
+            }
+        }];
+        title: string;
+        description: string;
+        platform: string;
+        price: number;
+        condition: string;
+        address: string;
+        place: string;
+        zip: string;
+    }
 }

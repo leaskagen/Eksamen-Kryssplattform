@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import { IonButtons, IonText, IonImg, IonButton, onIonViewWillEnter, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSpinner } from '@ionic/vue';
+import { IFetchFavorites, IFavoriteGames } from '@/models/IFavorite';
 import { directus, authService } from '@/services/directus.service';
-import { IGameResponse, IGame } from '@/models/IGame';
+import { IGame, IGameById } from '@/models/IGame';
 import GameCard from '@/components/GameCard.vue';
 import { IUser } from '@/models/IUser';
 import Back from '@/icons/back.png';
 import { ref } from 'vue';
 
 const gamesHasLoaded = ref(false);
-const toggleGamesHasLoaded = () => gamesHasLoaded.value = !gamesHasLoaded.value;
+
+function toggleGamesHasLoaded() {
+  if (games.value) {
+    gamesHasLoaded.value = true;
+  }
+}
 
 const games = ref<IGame[]>([]);
 
-const favorites = ref<any[]>([]);
+const favorites = ref<IFavoriteGames[]>([]);
 
 const user = ref<IUser>();
 
@@ -24,15 +30,14 @@ onIonViewWillEnter(async () => {
 
 // Get favorites by user id from Directus
 const fetchFavorites = async () => {
-  const response = await directus.graphql.items<any>(`
+  const response = await directus.graphql.items<IFetchFavorites>(`
     query {
-        favorite_games(filter: { user_created: { id: { _eq: "${user.value?.id}"} } }) {
+      favorite_games(filter: { user_created: { id: { _eq: "${user.value?.id}"} } }) {
         id,
         games_id,
       }
     }
   `);
-
   if (response.status === 200 && response.data) {
     favorites.value = [...response.data.favorite_games]; 
   }
@@ -42,7 +47,7 @@ const fetchFavorites = async () => {
 // Get games by id from Directus
 const fetchGames = async () => {
   favorites.value.forEach( async (favorite) => {
-    const response = await directus.graphql.items<IGameResponse>(`
+    const response = await directus.graphql.items<IGameById>(`
       query {
         games_by_id(id: ${favorite.games_id}) {
           id,
@@ -66,10 +71,7 @@ const fetchGames = async () => {
     if (response.status === 200 && response.data) {
       games.value.push(response.data.games_by_id);
     }
-    //gamesHasLoaded.value = true;
   });
-
-  
 }
 
 </script>
