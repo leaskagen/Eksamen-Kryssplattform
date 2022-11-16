@@ -3,6 +3,7 @@
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-buttons slot="start">
+          <!-- Custom back button -->
           <ion-button class="back-button">
             <ion-img :src="Back" @click="$router.go(-1)"></ion-img>
           </ion-button>
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonImg, IonText, IonHeader, IonButton, IonToolbar, IonButtons, IonBackButton, IonTitle, onIonViewWillEnter, IonContent, IonSpinner } from "@ionic/vue";
+import { IonPage, IonImg, IonText, IonHeader, IonButton, IonToolbar, IonButtons, IonTitle, onIonViewWillEnter, IonContent, IonSpinner } from "@ionic/vue";
 import { authService, directus } from "@/services/directus.service";
 import { IGameByUser, IGameByUserResponse } from "@/models/IGame";
 import MyGameCard from '@/components/MyGameCard.vue';
@@ -61,16 +62,6 @@ const fetchGames = async () => {
           },
         },
         title,
-        description,
-        user_created{
-            id,
-        }
-        platform,
-        price,
-        condition,
-        address,
-        place,
-        zip,
       }
     }
   `);
