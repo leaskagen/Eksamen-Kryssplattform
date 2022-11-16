@@ -3,7 +3,7 @@
 </template>
 <script lang="js">
 /*
-    Code from https://dev.to/aaronksaunders/create-your-own-vue3-google-maps-component-with-ionic-framework-capacitor-735
+  Code from https://dev.to/aaronksaunders/create-your-own-vue3-google-maps-component-with-ionic-framework-capacitor-735
 */
 import { IGameResponse, IGame, IGameImage } from '@/models/IGame';
 import { directus } from '@/services/directus.service';
@@ -42,6 +42,7 @@ export default {
       fetchAddress();
     });
 
+    // Get address for this game
     const fetchAddress = async () => {
       const response = await directus.graphql.items(`
         query {
