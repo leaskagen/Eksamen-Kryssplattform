@@ -63,7 +63,7 @@ const removeImage = (index: number) => {
 };
 
 // Saves Images ID for directus
-var newGameImages = [];
+var newGameImages = ref<any>([]);
 
 const postNewGame = async () => {
 
@@ -119,7 +119,7 @@ const postNewGame = async () => {
                     formData.append('file', imageBlob, 'image' + i + '.jpg');
                 } else {
                     // Removes empty image objects
-                    return;
+                    console.log('removed empty image object');
                 }
             }
             // Upload images to Directus
@@ -136,7 +136,7 @@ const postNewGame = async () => {
 
                 // Counts the number of images
                 imageIDs.forEach(image => {
-                    newGameImages.push({directus_files_id: {id: image}});
+                    newGameImages.value.push({directus_files_id: {id: image}});
                 });
 
                 // Upload game to Directus
@@ -149,7 +149,7 @@ const postNewGame = async () => {
                     address: newGame.value.address,
                     place: newGame.value.place,
                     zip: newGame.value.zip,
-                    images: newGameImages,
+                    images: newGameImages.value,
                 });
             }
 
@@ -199,7 +199,7 @@ const postNewGame = async () => {
                 </ion-button>
                 <!-- Preview images -->
                 <div class="images-container" v-if="newGame.images.length > 1">
-                    <div v-for = "image in newGame.images" :key="image" class="image-wrapper" @click="removeImage(newGame.images.indexOf(image))">
+                    <div v-for = "image in newGame.images" :key="image.directus_files_id.id" class="image-wrapper" @click="removeImage(newGame.images.indexOf(image))">
                         <img v-if="image.directus_files_id.id" :src="Delete" class="delete-image"/>
                        <img v-if="image.directus_files_id.id" :src="image.directus_files_id.id"  class="image-preview" /> 
                     </div>
