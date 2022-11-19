@@ -75,9 +75,7 @@ App-funksjonaliteter:
         - Brukere som er logget inn kan lagre annonser som favoritter.
         - Favoritter kan sees på en egen side.
         - Favoritter siden har en spinner som indikerer at appen jobber.
-        - Denne siden sluttet plutselig å fungere og jeg begynte plutselig å få denne feilmeldingen:
-            'Unhandled error during execution of scheduler flush. This is likely a Vue internals bug.' :(
-
+        
 App-styling:
 
     - Jeg har prøvd å få fram et gjennomgående retro spill tema ved å bruke pikselerte ikoner og font

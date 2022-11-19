@@ -63,7 +63,7 @@ const removeImage = (index: number) => {
 };
 
 // Saves Images ID for directus
-var newGameImages = [String];
+var newGameImages = [];
 
 const postNewGame = async () => {
 
