@@ -113,7 +113,6 @@ const fetchGames = async () => {
     game.value = response.data.games_by_id; 
 
     seller.value = game.value.user_created;
-    console.log(seller.value);
     chatId.value = `/chat/${seller.value.id}`;
   }
 }

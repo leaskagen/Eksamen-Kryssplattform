@@ -56,7 +56,6 @@ export default {
 
       if (response.status === 200 && response.data) {
         game.value = response.data.games_by_id; 
-        console.log(game.value);
         getCoordinates();
       }
     }

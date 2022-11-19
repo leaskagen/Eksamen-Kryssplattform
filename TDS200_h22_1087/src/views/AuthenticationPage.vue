@@ -268,7 +268,6 @@ ion-input {
     margin-left: 1.5em;
 }
 
-
 .cactus {
     background-image: url("@/images/cactus.png");
     background-size: 32px 35px;

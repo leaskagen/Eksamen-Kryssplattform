@@ -10,6 +10,7 @@ import SavedGamesPage from '../views/SavedGamesPage.vue';
 import MessagesPage from '../views/MessagesPage.vue';
 import ChatPage from '../views/ChatPage.vue';
 
+// Check if user is logged in
 const authenticationRequiredRouteGuard = async () => {
   const userAccessToken = localStorage.getItem("auth_token");
   if (!userAccessToken) {

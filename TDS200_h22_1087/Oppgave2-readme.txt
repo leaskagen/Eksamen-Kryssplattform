@@ -1,4 +1,4 @@
-Denne appen har blitt testet på en iPhone (iOS) og er fungerende der.
+Denne appen har blitt testet på en iPhone (iOS 16) gjennom Xcode versjon 14.0 beta 6
 
 App-funksjonaliteter:
 
@@ -39,17 +39,13 @@ App-funksjonaliteter:
             - Addressen i annonsen blir gjennom et API konvertert til koordinater som Google Maps bruker for å sentrere kartet
         - En bruker som er logget inn kan lagre favoritt annonsene sine, og fjerne de fra favoritter.
 
-    Se lagrede annonser:
-    - Brukere som er logget inn kan se annonser som de har lagret i på en egen side.
-    - Før annonsene lastes er det en spinner på skjermen som indikerer at appen jobber.
-
     Lage ny annonse:
     - Bare brukere som er logget inn kan lage en ny annonse.
     - Man kan laste opp et eller flere bilder (en annonse må ha minst ett bilde).
     - Brukeren kan fjerne bilder som er lastet opp.
     - Alle felt må være utfylt for å kunne lagre annonsen.
     - Postnummer må være gyldig (4 siffer og ikke inneholde bokstaver).
-    - Pris må være gyldig (1-6 siffer og verdi kan ikke være 0 eller inneholde bokstaver)
+    - Pris må være gyldig (1-6 siffer og verdi kan ikke være 0 eller inneholde bokstaver).
 
     Se mine annonser:
     - En bruker som er logget inn kan velge å bare se annonser som de selv har laget.
@@ -123,3 +119,8 @@ Referanser:
     - Kode / Tutorials:
         - Dinosaur spill: https://www.youtube.com/watch?v=i7nIutSLvdU
         - Google Maps: https://dev.to/aaronksaunders/create-your-own-vue3-google-maps-component-with-ionic-framework-capacitor-735
+
+    - npm pakker:
+        - axios (for å hente data fra API): https://www.npmjs.com/package/axios
+        - swiper (for å vise flere bilder): https://www.npmjs.com/package/swiper
+

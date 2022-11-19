@@ -63,8 +63,7 @@ const removeImage = (index: number) => {
 };
 
 // Saves Images ID for directus
-// TODO: Type for newGameImages?
-var newGameImages = [];
+var newGameImages = [String];
 
 const postNewGame = async () => {
 
@@ -277,7 +276,6 @@ const postNewGame = async () => {
     height: 0;
 }
 .camera-button button::after {
-    
     --border-color: #000;
 }
 

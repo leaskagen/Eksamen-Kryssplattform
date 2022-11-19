@@ -128,8 +128,6 @@ const fetchMessages = async () => {
     }
 }
 
-
-
 </script>
 
 <style scoped>
