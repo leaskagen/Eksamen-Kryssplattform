@@ -64,13 +64,13 @@ export default {
       query = `${game.value.address} ${game.value.zip}`;
 
       // Get coordinates for address
-      const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?street=${game.value.address}%2087&postcode=${game.value.zip}&city=${game.value.place}&country=Norway&format=json&limit=1&apiKey=d0559bad780a487e81424b4e4cd31097`)
+      const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?street=${game.value.address}%2087&postcode=${game.value.zip}&city=${game.value.place}&country=Norway&format=json&limit=1&apiKey=12345`)
 
       // Set coordinates
       latitude = response.data.results[0].lat;
       longitude = response.data.results[0].lon;
 
-      const key = "AIzaSyDatigsvXJm8fc_fFMy-FCOEnJXqROiZ0c";
+      const key = "12345";
 
     // create the script element to load
       const googleMapScript = document.createElement("SCRIPT");
